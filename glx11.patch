@@ -1,0 +1,33 @@
+diff --git a/build/cmake/files.cmake b/build/cmake/files.cmake
+index 02d4eb1..91cdcb2 100644
+--- a/build/cmake/files.cmake
++++ b/build/cmake/files.cmake
+@@ -3088,6 +3088,15 @@ set(OPENGL_MSW_HDR
+     wx/msw/glcanvas.h
+ )
+ 
++set(OPENGL_UNIX_SRC
++    src/unix/glx11.cpp
++    src/gtk/glcanvas.cpp
++)
++
++set(OPENGL_UNIX_HDR
++    wx/unix/glx11.h
++)
++
+ set(OPENGL_OSX_SHARED_SRC
+     src/osx/cocoa/glcanvas.mm
+     src/osx/glcanvas_osx.cpp
+diff --git a/build/cmake/lib/gl/CMakeLists.txt b/build/cmake/lib/gl/CMakeLists.txt
+index 4b656a8..accaed7 100644
+--- a/build/cmake/lib/gl/CMakeLists.txt
++++ b/build/cmake/lib/gl/CMakeLists.txt
+@@ -15,6 +15,8 @@ if(WIN32)
+     wx_append_sources(GL_FILES OPENGL_MSW)
+ elseif(APPLE)
+     wx_append_sources(GL_FILES OPENGL_OSX_SHARED)
++elseif(UNIX)
++    wx_append_sources(GL_FILES OPENGL_UNIX)
+ endif()
+ 
+ wx_add_library(gl ${GL_FILES})

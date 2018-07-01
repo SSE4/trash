@@ -1,0 +1,47 @@
+diff --git a/build/cmake/init.cmake b/build/cmake/init.cmake
+index 689cc2c..898c32b 100644
+--- a/build/cmake/init.cmake
++++ b/build/cmake/init.cmake
+@@ -172,10 +172,13 @@ if(wxUSE_GUI)
+     endif()
+ 
+     if(wxUSE_MEDIACTRL AND UNIX AND NOT APPLE AND NOT WIN32)
+-        find_package(GStreamer)
+-        if(NOT GSTREAMER_FOUND)
+-            message(WARNING "GStreamer not found, wxMediaCtrl won't be available")
+-            wx_option_force_value(wxUSE_MEDIACTRL OFF)
++        if(wxUSE_GSTREAMER)
++            find_package(GStreamer)
++            if(NOT GSTREAMER_FOUND)
++                message(WARNING "GStreamer not found, wxMediaCtrl won't be available")
++                wx_option_force_value(wxUSE_MEDIACTRL OFF)
++                wx_option_force_value(wxUSE_GSTREAMER OFF)
++            endif()
+         endif()
+     endif()
+ endif()
+diff --git a/build/cmake/options.cmake b/build/cmake/options.cmake
+index 1b0427f..9afa300 100644
+--- a/build/cmake/options.cmake
++++ b/build/cmake/options.cmake
+@@ -119,6 +119,7 @@ wx_option(wxUSE_LONGLONG "use wxLongLong class")
+ wx_option(wxUSE_MIMETYPE "use wxMimeTypesManager")
+ wx_option(wxUSE_PRINTF_POS_PARAMS "use wxVsnprintf() which supports positional parameters")
+ wx_option(wxUSE_SECRETSTORE "use wxSecretStore class")
++wx_option(wxUSE_GSTREAMER "use GStreamer")
+ wx_option(wxUSE_SNGLINST_CHECKER "use wxSingleInstanceChecker class")
+ wx_option(wxUSE_SOUND "use wxSound class")
+ wx_option(wxUSE_STDPATHS "use wxStandardPaths class")
+diff --git a/build/cmake/setup.h.in b/build/cmake/setup.h.in
+index 444222d..8a92d49 100644
+--- a/build/cmake/setup.h.in
++++ b/build/cmake/setup.h.in
+@@ -630,7 +630,7 @@
+ 
+    Recommended setting: 1 (wxMediaCtrl won't work by default without it).
+  */
+-#define wxUSE_GSTREAMER 0
++#cmakedefine01 wxUSE_GSTREAMER
+ 
+ #define wxUSE_GSTREAMER_PLAYER 0
+ 

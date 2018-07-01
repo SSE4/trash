@@ -1,0 +1,15 @@
+diff --git a/build/cmake/lib/media/CMakeLists.txt b/build/cmake/lib/media/CMakeLists.txt
+index 5c536da..e141361 100644
+--- a/build/cmake/lib/media/CMakeLists.txt
++++ b/build/cmake/lib/media/CMakeLists.txt
+@@ -31,6 +31,10 @@ if(WXOSX_COCOA)
+ elseif(UNIX)
+     wx_lib_include_directories(media PUBLIC ${GSTREAMER_INCLUDE_DIRS})
+     wx_lib_link_libraries(media PUBLIC ${GSTREAMER_LIBRARIES})
++
++    find_package(LibXml2 REQUIRED)
++    wx_lib_include_directories(media PUBLIC ${LIBXML2_INCLUDE_DIR})
++    wx_lib_link_libraries(media PUBLIC ${LIBXML2_LIBRARIES})
+ endif()
+ 
+ wx_finalize_lib(media)
